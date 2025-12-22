@@ -12,26 +12,30 @@
   <%- include('partials/navbar') %>
   
 <div id="intro-overlay">
-  <div class="rays-container">
-    <div class="ray ray-1"></div>
-    <div class="ray ray-2"></div>
-    <div class="ray ray-3"></div>
-    <div class="ray ray-4"></div>
-    <div class="ray ray-5"></div>
-    <div class="ray ray-6"></div>
-    <div class="ray ray-7"></div>
+  <div class="anime-bg"></div>
+
+  <!-- Floating particles -->
+  <div class="particles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span>
   </div>
-  
+
   <div class="intro-content">
-    <h1 class="bluish-text">MANGAVERSE</h1>
-    
+    <h1 class="anime-title">
+      <span>MANGA</span><span>VERSE</span>
+    </h1>
+
+    <!-- Flash line -->
+    <div class="flash-line"></div>
+
+    <!-- Loading bar -->
     <div class="loading-track">
-      <div class="loading-bar">
-        <div class="runner"></div>
-      </div>
+      <div class="loading-fill"></div>
+      <div class="loader-dot" aria-hidden="true"></div>
     </div>
   </div>
 </div>
+
     <%- include('partials/flash') %>
     
     <!-- Hero Section -->
@@ -113,24 +117,19 @@
         </div>
         
         <div class="manga-grid">
-          <% topRated.forEach(manga => { %>
+          <% topRated.slice(0,5).forEach(manga => { %>
             <div class="manga-card">
               <a href="/manga/<%= manga._id %>">
-                <div class="manga-cover">
-                  <img src="<%= manga.coverImage %>" alt="<%= manga.title %>">
-                  <div class="manga-overlay">
-                    <span class="manga-rating">
-                      <i class="fas fa-star"></i>
-                      <%= manga.averageRating.toFixed(1) %>
-                    </span>
-                  </div>
-                </div>
-                <div class="manga-info">
-                  <h3><%= manga.title %></h3>
-                  <p class="manga-author"><%= manga.author %></p>
-                  <div class="manga-meta">
-                    <span><i class="fas fa-eye"></i> <%= manga.viewCount %></span>
-                    <span><i class="fas fa-users"></i> <%= manga.ratingCount %> ratings</span>
+                <div class="outer">
+                  <div class="dot"></div>
+                  <div class="card" style="background-image: url('<%= manga.coverImage %>'); background-size: cover; background-position: center;">
+                    <div class="ray"></div>
+                    <div class="text"><%= manga.averageRating && manga.ratingCount > 0 ? manga.averageRating.toFixed(1) : '&ndash;' %></div>
+                    <div class="line topl"></div>
+                    <div class="line leftl"></div>
+                    <div class="line bottoml"></div>
+                    <div class="line rightl"></div>
+                    <div class="manga-card-title"><%= manga.title %></div>
                   </div>
                 </div>
               </a>
@@ -149,27 +148,19 @@
         </div>
         
         <div class="manga-grid">
-          <% recentManga.forEach(manga => { %>
+          <% recentManga.slice(0,5).forEach(manga => { %>
             <div class="manga-card">
               <a href="/manga/<%= manga._id %>">
-                <div class="manga-cover">
-                  <img src="<%= manga.coverImage %>" alt="<%= manga.title %>">
-                  <div class="manga-overlay">
-                    <% if (manga.averageRating > 0) { %>
-                      <span class="manga-rating">
-                        <i class="fas fa-star"></i>
-                        <%= manga.averageRating.toFixed(1) %>
-                      </span>
-                    <% } %>
-                  </div>
-                </div>
-                <div class="manga-info">
-                  <h3><%= manga.title %></h3>
-                  <p class="manga-author"><%= manga.author %></p>
-                  <div class="manga-genres">
-                    <% manga.genres.slice(0, 2).forEach(genre => { %>
-                      <span class="genre-tag"><%= genre %></span>
-                    <% }) %>
+                <div class="outer">
+                  <div class="dot"></div>
+                  <div class="card" style="background-image: url('<%= manga.coverImage %>'); background-size: cover; background-position: center;">
+                    <div class="ray"></div>
+                    <div class="text"><%= manga.averageRating && manga.ratingCount > 0 ? manga.averageRating.toFixed(1) : '&ndash;' %></div>
+                    <div class="line topl"></div>
+                    <div class="line leftl"></div>
+                    <div class="line bottoml"></div>
+                    <div class="line rightl"></div>
+                    <div class="manga-card-title"><%= manga.title %></div>
                   </div>
                 </div>
               </a>
@@ -179,41 +170,7 @@
       </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="section">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-book-open"></i>
-            </div>
-            <h3><%= recentManga.length %>+</h3>
-            <p>Manga Titles</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-comments"></i>
-            </div>
-            <h3>Active</h3>
-            <p>Community Discussions</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <h3>Growing</h3>
-            <p>User Community</p>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-star"></i>
-            </div>
-            <h3>Thousands</h3>
-            <p>of Ratings</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Stats Section removed per request -->
   </main>
 
   <%- include('partials/footer') %>

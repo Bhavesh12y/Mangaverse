@@ -60,176 +60,176 @@ body {
    INTRO ANIMATION (Blue Theme + Runner)
    ========================================= */
 #intro-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: #000;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #02040a, #000);
   z-index: 9999;
-  display: flex; justify-content: center; align-items: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 0.8s ease, visibility 0.8s;
 }
 
 #intro-overlay.fade-out {
-  opacity: 0; visibility: hidden; pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
 }
 
-.rays-container {
-  position: absolute; width: 100%; height: 100%;
-  overflow: hidden;
-  display: flex; justify-content: center; align-items: center;
-}
-
-.ray {
-  position: absolute; width: 200%; height: 200%;
-  /* Changed to Blue-ish Metallic Gradient */
-  background: conic-gradient(from 0deg, transparent 0%, rgba(0, 243, 255, 0.1) 10%, transparent 20%);
-  animation: rotateRays 10s linear infinite;
-}
-
-.ray-2 { animation-duration: 15s; opacity: 0.5; animation-direction: reverse; }
-.ray-3 { animation-duration: 20s; opacity: 0.3; }
-.ray-4 { animation-duration: 25s; opacity: 0.2; }
-.ray-5 { animation-duration: 30s; opacity: 0.15; }
-.ray-6 { animation-duration: 35s; opacity: 0.1; }
-.ray-7 { animation-duration: 40s; opacity: 0.05; }
-
-.intro-content { position: relative; z-index: 2; text-align: center; }
-
-/* --- NEW BLUE TEXT THEME --- */
-.bluish-text {
-  font-size: 4rem; font-weight: 900;
-  text-transform: uppercase; letter-spacing: 5px;
-  /* Cyan/White Metallic Gradient */
-  background: linear-gradient(to bottom, #ffffff 0%, #00f3ff 50%, #ffffff 100%);
-  -webkit-background-clip: text; color: transparent;
-  /* Blue Glow Drop Shadow */
-  filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
-  animation: textShine 3s infinite alternate;
-  /* Intro zoom/transition: will scale out and fade-in for dramatic effect */
-  transform-origin: center center;
-  animation-name: textShine, introZoomOut;
-  animation-duration: 3s, 1100ms;
-  animation-delay: 0s, 100ms;
-  animation-timing-function: ease-in-out, cubic-bezier(.2,.9,.2,1);
-  animation-iteration-count: infinite, 1;
-}
-
-/* --- RUNNING CHARACTER LOADER --- */
-.loading-track {
-  width: 300px; /* Width of the run */
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1); /* Faint track line */
-  margin: 60px auto 0; /* Space for the character above line */
-  border-radius: 2px;
-  position: relative;
-}
-
-.loading-bar {
-  width: 0%; height: 100%;
-  background: var(--blue); /* Neon Blue Line */
-  box-shadow: 0 0 10px var(--blue);
-  position: relative;
-  /* The Run Animation - extended to match intro duration */
-  animation: loadProgress 4.2s ease-in-out forwards;
-}
-
-.runner {
+/* --- Anime Background Glow --- */
+.anime-bg {
   position: absolute;
-  top: -48px; /* Move character UP to sit on the line */
-  right: -25px; /* Center character on the leading edge */
-  width: 50px;
-  height: 50px;
-  
-  /* --- PLACE YOUR GIF HERE --- */
-
-  
-  background-size: contain;
-  background-repeat: no-repeat;
-  
-  /* Flip image if running left-to-right (depends on your GIF) */
-  /* transform: scaleX(-1); */ 
+  inset: -50%;
+  background:
+    radial-gradient(circle, rgba(0,200,255,0.15), transparent 60%);
+  animation: bgPulse 6s infinite alternate;
 }
 
-@keyframes loadProgress {
-  0% { width: 0%; }
-  100% { width: 100%; }
+@keyframes bgPulse {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.2); opacity: 0.6; }
 }
 
-/* Intro zoom-out for the main title inside overlay */
-@keyframes introZoomOut {
-  0% { transform: scale(1.25) translateY(6px); opacity: 0; filter: blur(8px); }
-  60% { transform: scale(0.95) translateY(-8px); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+/* --- Floating Shiny Particles --- */
+.particles span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 200, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 200, 255, 1);
+  border-radius: 50%;
+  animation: float 8s linear infinite;
 }
 
-/* Rotating ring overlay + scanlines + subtle particles for richer intro visuals */
-.rays-container::before {
-  content: '';
-  position: absolute; inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 50% 50%, rgba(0,243,255,0.06) 2%, transparent 6%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0.5px, transparent 0.5px);
-  background-size: 220px 220px, 6px 6px;
-  mix-blend-mode: screen;
-  transform: scale(1.05);
-  animation: ringRotate 20s linear infinite;
-  z-index: 1;
+.particles span:nth-child(n) {
+  top: calc(100% * var(--y));
+  left: calc(100% * var(--x));
 }
 
-@keyframes ringRotate {
-  from { transform: rotate(0deg) scale(1.05); }
-  to { transform: rotate(360deg) scale(1.05); }
+.particles span {
+  --x: calc(random() * 1);
+  --y: calc(random() * 1);
 }
 
-.rays-container::after {
-  content: '';
-  position: absolute; inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(255,255,255,0.02) 0px,
-    rgba(255,255,255,0.02) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-  opacity: 0.18;
-  animation: scanlineMove 6s linear infinite;
+@keyframes float {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(-120vh); opacity: 1; }
+}
+
+/* --- Content --- */
+.intro-content {
+  position: relative;
+  text-align: center;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
-@keyframes scanlineMove {
-  from { background-position: 0 0; }
-  to { background-position: 0 40px; }
+/* --- Title Animation --- */
+.anime-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  letter-spacing: 6px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/* Subtle floating particle layer using repeating radial pattern */
-#intro-overlay::before {
-  content: '';
-  position: absolute; inset: 0;
+.anime-title span {
+  background: linear-gradient(180deg, #fff, #00eaff, #fff);
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 25px rgba(0,200,255,0.9));
+  animation: titleIn 1.2s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+.anime-title span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+@keyframes titleIn {
+  from {
+    transform: translateY(120%) scale(1.4);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* --- Flash Slash --- */
+.flash-line {
+  width: 0;
+  height: 2px;
+  margin: 25px auto;
+  background: linear-gradient(90deg, transparent, #00eaff, transparent);
+  box-shadow: 0 0 25px #00eaff;
+  animation: flash 1s ease forwards;
+  animation-delay: 0.9s;
+}
+
+@keyframes flash {
+  to { width: 320px; }
+}
+
+/* --- Loading Bar --- */
+.loading-track {
+  width: 360px;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  overflow: visible;
+  border-radius: 6px;
+  position: relative;
+}
+
+.loading-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00eaff, #ffffff, #00eaff);
+  box-shadow: 0 0 20px #00eaff;
+  border-radius: 6px;
+  animation: load 4.5s ease forwards;
+}
+
+@keyframes load {
+  to { width: 100%; }
+}
+
+/* Larger circular loader above the track */
+.loader-dot {
+  position: absolute;
+  top: -36px;
+  left: calc(50% - 36px);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, rgba(0,243,255,0.18) 20%, rgba(0,102,255,0.06) 60%);
+  box-shadow: 0 12px 40px rgba(0,243,255,0.12), 0 4px 12px rgba(0,0,0,0.6) inset;
+  z-index: 30;
   pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 18px 18px;
-  opacity: 0.06;
-  transform: translateZ(0);
-  animation: particleFloat 12s linear infinite;
-  z-index: 0;
+  transform-origin: center;
+  animation: loaderPulse 1.8s ease-in-out infinite;
 }
 
-@keyframes particleFloat {
-  0% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-6px) translateX(8px); }
-  100% { transform: translateY(0) translateX(0); }
+@keyframes loaderPulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.06); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-@keyframes textShine {
-  0% { filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.4)); }
-  100% { filter: drop-shadow(0 0 25px rgba(0, 243, 255, 0.9)); }
-}
-
-/* Mobile Adjustments */
+/* --- Mobile --- */
 @media (max-width: 768px) {
-  .bluish-text { font-size: 2.5rem; }
-  .loading-track { width: 200px; }
+  .anime-title { font-size: 2.6rem; }
+  .loading-track { width: 220px; }
 }
+
 
 /* =========================================
    LAYOUT & TYPOGRAPHY
@@ -649,6 +649,7 @@ h1 { font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
   box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
+
 .hero-container-overlay {
   position: relative;
   z-index: 10; /* Sits ON TOP of the cards */
@@ -746,6 +747,45 @@ h1 { font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
   font-size: 0.7rem; text-transform: uppercase;
 }
 
+/* Uiverse-style outer card for manga items */
+.outer {
+  width: 100%;
+  height: 420px; /* increased height for stronger presence */
+  border-radius: 10px;
+  padding: 6px; /* subtle frame */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: visible;
+}
+
+.outer .dot {
+  width: 6px; aspect-ratio: 1; position: absolute; background-color: #fff;
+  box-shadow: 0 0 8px #ffffff; border-radius: 100px; z-index: 6; right: 10%; top: 8%;
+  animation: moveDot 6s linear infinite;
+}
+
+@keyframes moveDot { 0%,100%{ top:8%; right:10%; } 25%{ top:8%; right:calc(100% - 35px);} 50%{ top:calc(100% - 30px); right:calc(100% - 35px);} 75%{ top:calc(100% - 30px); right:10%; } }
+
+.outer .card {
+  z-index: 1; width: 100%; height: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);
+  background-size: cover; background-position: center; display:flex; align-items:center; justify-content:center;
+  position: relative; flex-direction: column; color: #fff; overflow: hidden;
+}
+.outer .card { transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease; transform-origin: center center; }
+.outer .card:hover { transform: perspective(900px) rotateX(8deg) rotateY(-10deg) translateY(-12px) scale(1.03); box-shadow: 0 30px 60px rgba(0,0,0,0.7); }
+.outer .card .ray { width: 220px; height: 45px; border-radius: 100px; position: absolute; background-color: rgba(199,199,199,0.6); opacity: 0.18; box-shadow: 0 0 40px #fff; filter: blur(8px); transform-origin: 10%; top: 6%; left: -10%; transform: rotate(30deg); }
+.outer .card .text { font-weight: 800; font-size: 2.6rem; background: linear-gradient(45deg, #ffffff 4%, rgba(255,255,255,0.6) 30%, transparent 60%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 12px; }
+.outer .card .manga-card-title { position: absolute; bottom: 12px; left: 12px; right: 12px; text-align: left; font-size: 0.98rem; font-weight: 700; color: #fff; text-shadow: 0 6px 18px rgba(0,0,0,0.7); background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); padding: 8px 10px; border-radius: 6px; }
+.outer .line { width: 100%; height: 1px; position: absolute; background-color: rgba(255,255,255,0.03); }
+.outer .topl { top: 8%; background: linear-gradient(90deg, rgba(136,136,136,0.4) 30%, rgba(29,31,31,0.1) 70%); }
+.outer .bottoml { bottom: 8%; }
+.outer .leftl { left: 8%; width: 1px; height: 100%; background: linear-gradient(180deg, rgba(116,116,116,0.4) 30%, rgba(34,36,36,0.1) 70%); }
+.outer .rightl { right: 8%; width: 1px; height: 100%; }
+
+/* make links inside card take full area without affecting layout */
+.manga-card > a { display: block; height: 100%; color: inherit; text-decoration: none; }
+
 /* Container for the Dot Grid */
 #dot-grid-container {
   position: absolute;
@@ -808,8 +848,34 @@ input:focus, textarea:focus {
    STATS & SECTION HEADERS
    ========================================= */
 .section-header h2 i { color: var(--red); text-shadow: var(--glow-red); }
-.view-all { color: var(--green); }
-.view-all:hover { color: #fff; text-shadow: var(--glow-green); }
+/* Centered section header and themed "View All" button */
+.section-header {
+  display: block;
+  text-align: center;
+  padding: 1.1rem 0 0.6rem 0; /* increased top padding */
+  margin-bottom: 1.6rem;
+}
+.section-header h2 { margin: 0; font-size: 1.5rem; padding: 0.6rem 0; }
+.view-all {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(0,243,255,0.08), rgba(255,0,60,0.04));
+  color: var(--text-secondary);
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.03);
+  /* positioned at bottom-right of section container */
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1200;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.view-all:hover { color: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.6); transform: translateY(-3px); }
+
+/* Ensure the section container is positioned for absolute placement */
+.section .container { position: relative; padding-bottom: 3.2rem; }
 
 .stat-card {
   background: linear-gradient(145deg, #111, #080808);
@@ -921,18 +987,6 @@ input:focus, textarea:focus {
   100% { text-shadow: 0 8px 24px rgba(0,0,0,0.75); }
 }
 
-/* Dot grid rendered inside hero so it shows even if body background is obscured */
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mix-blend-mode: overlay;
-  opacity: 0.7;
-}
 
 /* Status Badges */
 .manga-status.Ongoing { 
@@ -942,13 +996,217 @@ input:focus, textarea:focus {
   background: rgba(0, 243, 255, 0.1); color: var(--blue); border-color: var(--blue); 
 }
 
-/* Footer */
+/* =========================================
+   CLASSY CYBER FOOTER
+   ========================================= */
 .footer {
-  background: #000; border-top: 1px solid #222;
+  background: #020202;
+  position: relative;
+  margin-top: auto;
+  padding: 4rem 0 2rem;
+  overflow: hidden;
 }
-.social-links a:hover {
-  background: var(--red); border-color: var(--red); color: #fff;
-  box-shadow: var(--glow-red);
+
+/* Neon Gradient Top Border */
+.footer-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--blue), var(--green));
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr; /* Brand section is wider */
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Brand Section */
+.brand-section p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+.footer-section h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-logo-text {
+  background: linear-gradient(45deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.footer-section h3 i {
+  color: var(--red);
+  text-shadow: 0 0 10px var(--glow-red);
+}
+
+.footer-section h4 {
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Underline for headings */
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 30px;
+  height: 2px;
+  background: var(--blue);
+  box-shadow: 0 0 5px var(--blue);
+}
+
+/* Links Styling */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a i {
+  font-size: 0.7rem;
+  color: var(--border); /* Dark initially */
+  transition: 0.3s;
+}
+
+/* Hover Effect: Slide Right + Glow */
+.footer-links a:hover {
+  color: #fff;
+  transform: translateX(5px);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.footer-links a:hover i {
+  color: var(--green); /* Icon lights up green */
+}
+
+/* Social Buttons */
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-btn:hover {
+  transform: translateY(-3px) scale(1.1);
+  border-color: transparent;
+}
+
+/* Individual Social Colors */
+.social-btn.twitter:hover { background: #1da1f2; box-shadow: 0 0 15px #1da1f2; }
+.social-btn.discord:hover { background: #5865f2; box-shadow: 0 0 15px #5865f2; }
+.social-btn.reddit:hover { background: #ff4500; box-shadow: 0 0 15px #ff4500; }
+.social-btn.github:hover { background: #333; box-shadow: 0 0 15px #ffffff; }
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-bottom p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.footer-bottom i {
+  color: var(--red);
+}
+
+.footer-legal {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-legal a {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-legal a:hover {
+  color: var(--blue);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr; /* Stack vertically */
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .brand-section p {
+    margin: 1rem auto;
+  }
+  
+  .footer-section h3, 
+  .footer-links a, 
+  .social-links {
+    justify-content: center;
+  }
+  
+  .footer-section h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 /* Thread/Discussion Specifics */

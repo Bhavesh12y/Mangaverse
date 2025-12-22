@@ -196,31 +196,18 @@ function initDotGrid() {
   // ========================================
   // NEW: INTRO ANIMATION HANDLER
   // ========================================
-  const introOverlay = document.getElementById('intro-overlay');
-  
-  if (introOverlay) {
-    // Prevent scrolling while intro is active
-    document.body.style.overflow = 'hidden';
-    // Configurable intro delay (ms)
-    const INTRO_DELAY_MS = 4000; // increase intro loading time to 4.5s
+const intro = document.getElementById("intro-overlay");
 
-    // Wait for the animation
-    setTimeout(() => {
-      introOverlay.classList.add('fade-out');
-      // Trigger hero animations immediately so they're visible during fade
-      document.body.classList.add('intro-done');
-      
-      // Re-enable scrolling
-      document.body.style.overflow = '';
-      
-      // Optional: Completely remove from DOM after fade transition
-      setTimeout(() => {
-        introOverlay.style.display = 'none';
-        // Mark intro finished so CSS animations can play
-        document.body.classList.add('intro-done');
-      }, 800); // Wait for the CSS transition to finish
-    }, INTRO_DELAY_MS);
-  }
+if (intro) {
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    intro.classList.add("fade-out");
+    document.body.classList.add("intro-done");
+    document.body.style.overflow = "";
+  }, 4500); // matches loading animation
+}
+
 
   // ... existing init functions ...
   initMobileMenu();
