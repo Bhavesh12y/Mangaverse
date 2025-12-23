@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | MangaVerse</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <%- include('../partials/navbar') %>
@@ -13,29 +14,43 @@
   <main class="main-content">
     <%- include('../partials/flash') %>
     
-    <div class="container">
-      <div class="page-header">
-        <h1><i class="fas fa-plus-circle"></i> <%= title %></h1>
-        <p>Start a new discussion about manga</p>
+    <div class="container narrow-container">
+      
+      <div class="discussion-top-bar centered-bar">
+        <div class="header-pill">
+          <h1><i class="fas fa-edit"></i> START NEW DISCUSSION</h1>
+        </div>
       </div>
 
-      <div class="form-container">
-        <form action="/discussions/create" method="POST" class="discussion-form">
+      <div class="create-terminal-card">
+        
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">MangaVerse</span>
+        </div>
+
+        <form action="/discussions/create" method="POST" class="cyber-form">
+          
           <div class="form-group">
-            <label for="manga">
-              <i class="fas fa-book"></i> Select Manga *
+            <label for="manga" class="cyber-label">
+              <i class="fas fa-book-open"></i> Select Manga
             </label>
-            <select name="manga" id="manga" required>
-              <option value="">Choose a manga...</option>
-              <% manga.forEach(m => { %>
-                <option value="<%= m._id %>"><%= m.title %></option>
-              <% }) %>
-            </select>
+            <div class="select-wrapper">
+                <select name="manga" id="manga" required class="cyber-input">
+                  <option value="">-- Choose a manga --</option>
+                  <% manga.forEach(m => { %>
+                    <option value="<%= m._id %>"><%= m.title %></option>
+                  <% }) %>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="title">
-              <i class="fas fa-heading"></i> Discussion Title *
+            <label for="title" class="cyber-label">
+              <i class="fas fa-heading"></i> Discussion Title
             </label>
             <input 
               type="text" 
@@ -43,13 +58,14 @@
               name="title" 
               required 
               maxlength="200"
-              placeholder="What would you like to discuss?"
+              class="cyber-input"
+              placeholder="What topic do you want to discuss?"
             >
           </div>
 
           <div class="form-group">
-            <label for="content">
-              <i class="fas fa-align-left"></i> Content *
+            <label for="content" class="cyber-label">
+              <i class="fas fa-align-left"></i> Discussion Content
             </label>
             <textarea 
               id="content" 
@@ -57,24 +73,30 @@
               required 
               rows="10"
               maxlength="5000"
-              placeholder="Share your thoughts, theories, or questions..."
+              class="cyber-textarea"
+              placeholder="Write your thoughts here..."
             ></textarea>
-            <small class="form-hint">Maximum 5000 characters</small>
+            <div class="form-hint">
+                <span><i class="fas fa-info-circle"></i> Be respectful to others</span>
+                <span>Max 5000 chars</span>
+            </div>
           </div>
 
-          <div class="form-actions">
+          <div class="form-actions-cyber">
+            <a href="/discussions" class="btn btn-outline">
+              Cancel
+            </a>
             <button type="submit" class="btn btn-primary btn-large">
-              <i class="fas fa-paper-plane"></i> Create Discussion
+              POST DISCUSSION <i class="fas fa-paper-plane"></i>
             </button>
-            <a href="/discussions" class="btn btn-outline">Cancel</a>
           </div>
+
         </form>
       </div>
     </div>
   </main>
 
   <%- include('../partials/footer') %>
-  
   <script src="/js/main.js"></script>
 </body>
 </html>

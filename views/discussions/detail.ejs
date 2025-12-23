@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %> | MangaVerse</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <title><%= thread.title %> | MangaVerse</title>
+  <link rel="stylesheet" href="/css/style2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <%- include('../partials/navbar') %>
@@ -14,108 +15,101 @@
     <%- include('../partials/flash') %>
     
     <div class="container">
-      <!-- Thread Header -->
-      <div class="thread-detail-header">
-        <div class="thread-manga-badge">
-          <img src="<%= thread.manga.coverImage %>" alt="<%= thread.manga.title %>">
-          <a href="/manga/<%= thread.manga._id %>"><%= thread.manga.title %></a>
-        </div>
+      
+      <div class="thread-hero-grid">
         
-        <h1><%= thread.title %></h1>
-        
-        <div class="thread-meta-detail">
-          <span><i class="fas fa-user"></i> <%= thread.user.username %></span>
-          <span><i class="fas fa-clock"></i> <%= new Date(thread.createdAt).toLocaleString() %></span>
-          <span><i class="fas fa-eye"></i> <%= thread.views %> views</span>
-          <span><i class="fas fa-comments"></i> <%= thread.replies.length %> replies</span>
+        <div class="hero-image-card">
+            <img src="<%= thread.manga.coverImage %>" alt="<%= thread.manga.title %>">
+            <div class="screentone-overlay"></div> </div>
+
+        <div class="hero-info-stack">
+            
+            <a href="/manga/<%= thread.manga._id %>" class="info-pill manga-pill">
+                <i class="fas fa-book-open"></i> <%= thread.manga.title %>
+            </a>
+
+            <div class="info-pill title-pill">
+                <h1><%= thread.title %></h1>
+            </div>
+
+            <div class="info-pill content-pill">
+                <div class="pill-meta-header">
+                    <span class="user-badge">
+                        <i class="fas fa-user-astronaut"></i> <%= thread.user.username %>
+                    </span>
+                    <span class="date-badge">
+                        <i class="fas fa-clock"></i> <%= new Date(thread.createdAt).toLocaleDateString() %>
+                    </span>
+                     <% if (currentUser && currentUser.id === thread.user._id.toString()) { %>
+                        <form action="/discussions/<%= thread._id %>?_method=DELETE" method="POST" class="delete-form"
+                            onsubmit="return confirm('Delete this thread?')">
+                            <button type="submit" class="trash-btn"><i class="fas fa-trash"></i></button>
+                        </form>
+                    <% } %>
+                </div>
+                
+                <div class="pill-body-text">
+                    <%= thread.content %>
+                </div>
+                
+                <div class="pill-stats">
+                    <span><i class="fas fa-eye"></i> <%= thread.views %> Views</span>
+                    <span><i class="fas fa-reply"></i> <%= thread.replies.length %> Replies</span>
+                </div>
+            </div>
+
         </div>
       </div>
 
-      <!-- Thread Content -->
-      <div class="thread-content-box">
-        <div class="thread-author-info">
-          <div class="author-avatar">
-            <%= thread.user.username.charAt(0).toUpperCase() %>
-          </div>
-          <div>
-            <strong><%= thread.user.username %></strong>
-            <span class="author-date"><%= new Date(thread.createdAt).toLocaleDateString() %></span>
-          </div>
-        </div>
-        
-        <div class="thread-content-text">
-          <%= thread.content %>
+      <div class="replies-container-pill">
+        <div class="replies-header">
+            <h3><i class="fas fa-comments"></i> ALL COMMUNICATIONS</h3>
         </div>
 
-        <% if (currentUser && currentUser.id === thread.user._id.toString()) { %>
-          <div class="thread-actions">
-            <form action="/discussions/<%= thread._id %>?_method=DELETE" method="POST" 
-                  onsubmit="return confirm('Are you sure you want to delete this discussion?')">
-              <button type="submit" class="btn btn-danger btn-small">
-                <i class="fas fa-trash"></i> Delete Discussion
-              </button>
-            </form>
-          </div>
-        <% } %>
+        <div class="replies-scroll-window">
+            <% if (thread.replies.length > 0) { %>
+                <% thread.replies.forEach(reply => { %>
+                    <div class="reply-bubble">
+                        <div class="reply-user">
+                            <span class="r-avatar"><%= reply.user.username.charAt(0).toUpperCase() %></span>
+                            <span class="r-name"><%= reply.user.username %></span>
+                            <span class="r-date"><%= new Date(reply.createdAt).toLocaleDateString() %></span>
+                        </div>
+                        <div class="reply-text">
+                            <%= reply.content %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="empty-replies">
+                    <p>No signals detected. Start the transmission.</p>
+                </div>
+            <% } %>
+        </div>
       </div>
 
-      <!-- Replies Section -->
-      <div class="replies-section">
-        <h2><i class="fas fa-reply"></i> Replies (<%= thread.replies.length %>)</h2>
-
-        <% if (thread.replies.length > 0) { %>
-          <div class="replies-list">
-            <% thread.replies.forEach(reply => { %>
-              <div class="reply-item">
-                <div class="reply-author-info">
-                  <div class="author-avatar small">
-                    <%= reply.user.username.charAt(0).toUpperCase() %>
-                  </div>
-                  <div>
-                    <strong><%= reply.user.username %></strong>
-                    <span class="reply-date"><%= new Date(reply.createdAt).toLocaleString() %></span>
-                  </div>
-                </div>
-                <div class="reply-content">
-                  <%= reply.content %>
-                </div>
-              </div>
-            <% }) %>
-          </div>
-        <% } else { %>
-          <p class="no-replies">No replies yet. Be the first to respond!</p>
-        <% } %>
-
-        <!-- Reply Form -->
+      <div class="reply-input-pill">
         <% if (currentUser) { %>
-          <div class="reply-form-container">
-            <h3>Add Your Reply</h3>
-            <form action="/discussions/<%= thread._id %>/reply" method="POST">
-              <div class="form-group">
-                <textarea 
-                  name="content" 
-                  required 
-                  rows="5" 
-                  maxlength="2000"
-                  placeholder="Share your thoughts..."
-                ></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">
-                <i class="fas fa-paper-plane"></i> Post Reply
-              </button>
+            <form action="/discussions/<%= thread._id %>/reply" method="POST" class="reply-flex-form">
+                <div class="input-wrapper">
+                    <i class="fas fa-pen-nib"></i>
+                    <textarea name="content" placeholder="Enter your response protocol..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary send-btn">
+                    SEND <i class="fas fa-paper-plane"></i>
+                </button>
             </form>
-          </div>
         <% } else { %>
-          <div class="login-prompt-box">
-            <p><a href="/auth/login">Login</a> to join the discussion</p>
-          </div>
+            <div class="login-prompt">
+                <a href="/auth/login" class="btn btn-outline">Login to Reply</a>
+            </div>
         <% } %>
       </div>
+
     </div>
   </main>
 
   <%- include('../partials/footer') %>
-  
   <script src="/js/main.js"></script>
 </body>
 </html>
