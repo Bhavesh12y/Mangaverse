@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %> | MangaVerse</title>
+  <title><%= manga.title %> | MangaVerse</title>
+  <link rel="stylesheet" href="/css/style2.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <%- include('../partials/navbar') %>
@@ -17,149 +15,141 @@
     <%- include('../partials/flash') %>
     
     <div class="container">
-      <!-- Manga Details Header -->
-      <div class="manga-detail-header">
-        <div class="manga-detail-cover">
-          <img src="<%= manga.coverImage %>" alt="<%= manga.title %>">
-        </div>
+      
+      <div class="manga-hero-grid">
         
-        <div class="manga-detail-info">
-          <h1><%= manga.title %></h1>
-          <p class="manga-author-large">
-            <i class="fas fa-pen"></i> by <%= manga.author %>
-          </p>
-          
-          <div class="manga-meta-large">
-            <span class="meta-item">
-              <i class="fas fa-circle-info"></i>
-              Status: <strong><%= manga.status %></strong>
-            </span>
-            <span class="meta-item">
-              <i class="fas fa-book"></i>
-              Chapters: <strong><%= manga.chapters %></strong>
-            </span>
-            <span class="meta-item">
-              <i class="fas fa-eye"></i>
-              Views: <strong><%= manga.viewCount %></strong>
-            </span>
-            <% if (manga.yearPublished) { %>
-              <span class="meta-item">
-                <i class="fas fa-calendar"></i>
-                Year: <strong><%= manga.yearPublished %></strong>
-              </span>
-            <% } %>
-          </div>
+        <div class="hero-cover-wrapper">
+            <img src="<%= manga.coverImage %>" alt="<%= manga.title %>" class="hero-cover-img">
+            <div class="screentone-overlay"></div>
+        </div>
 
-          <div class="manga-genres-large">
-            <% manga.genres.forEach(genre => { %>
-              <span class="genre-tag-large"><%= genre %></span>
-            <% }) %>
-          </div>
-
-          <div class="rating-section">
-            <div class="rating-cards">
-              <div class="rating-card">
-                <h3><i class="fas fa-users"></i> Community Rating</h3>
-                <div class="rating-display-large">
-                  <div class="rating-score">
-                    <span class="rating-number"><%= manga.averageRating.toFixed(1) %></span>
-                    <div class="stars-large">
-                      <% for (let i = 1; i <= 5; i++) { %>
-                        <i class="fas fa-star <%= i <= Math.round(manga.averageRating) ? 'active' : '' %>"></i>
-                      <% } %>
-                    </div>
-                    <span class="rating-count"><%= manga.ratingCount %> rating<%= manga.ratingCount !== 1 ? 's' : '' %></span>
-                  </div>
-                </div>
-              </div>
-
-              <% if (currentUser) { %>
-                <div class="rating-card">
-                  <h3><i class="fas fa-star-half-stroke"></i> Your Rating</h3>
-                  <form action="/manga/<%= manga._id %>/rate" method="POST" id="ratingForm">
-                    <div class="rating-form-content">
-                      <select name="rating" id="rating" class="rating-select" required>
-                        <option value="" <%= userRating === 0 ? 'selected' : '' %>>Choose your rating...</option>
-                        <option value="1" <%= userRating === 1 ? 'selected' : '' %>>⭐ 1 Star - Poor</option>
-                        <option value="2" <%= userRating === 2 ? 'selected' : '' %>>⭐⭐ 2 Stars - Fair</option>
-                        <option value="3" <%= userRating === 3 ? 'selected' : '' %>>⭐⭐⭐ 3 Stars - Good</option>
-                        <option value="4" <%= userRating === 4 ? 'selected' : '' %>>⭐⭐⭐⭐ 4 Stars - Very Good</option>
-                        <option value="5" <%= userRating === 5 ? 'selected' : '' %>>⭐⭐⭐⭐⭐ 5 Stars - Excellent</option>
-                      </select>
-                      <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Submit
-                      </button>
-                    </div>
-                    <% if (userRating > 0) { %>
-                      <p class="current-user-rating">
-                        <i class="fas fa-check-circle"></i> You rated: <strong><%= userRating %> star<%= userRating !== 1 ? 's' : '' %></strong>
-                      </p>
-                    <% } %>
-                  </form>
-                </div>
-              <% } else { %>
-                <div class="rating-card login-card">
-                  <i class="fas fa-lock" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-                  <p><a href="/auth/login" class="btn btn-primary">Login to Rate</a></p>
-                </div>
-              <% } %>
+        <div class="hero-info-wrapper">
+            
+            <div class="info-card title-card">
+                <h1><%= manga.title %></h1>
             </div>
-          </div>
+
+            <div class="info-card details-card">
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="label">Author</span>
+                        <span class="value author-value"><%= manga.author %></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Status</span>
+                        <span class="status-pill <%= manga.status.toLowerCase() %>"><%= manga.status %></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Chapters</span>
+                        <span class="value"><%= manga.chapters %></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Year</span>
+                        <span class="value"><%= manga.yearPublished || 'N/A' %></span>
+                    </div>
+                    <div class="detail-item full-width">
+                        <span class="label">Genres</span>
+                        <div class="genre-tags">
+                            <% manga.genres.forEach(genre => { %>
+                                <span class="tag"><%= genre %></span>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ratings-row">
+                <div class="info-card rating-display-card">
+                    <div class="rating-big">
+                        <i class="fas fa-star star-icon"></i>
+                        <span class="score-num"><%= manga.averageRating.toFixed(1) %></span>
+                    </div>
+                    <span class="rating-sub"><%= manga.ratingCount %> Votes</span>
+                </div>
+
+                <div class="info-card rating-action-card">
+    <% if (currentUser) { %>
+        <div class="rating-label">Add Your Rating</div>
+        
+        <form action="/manga/<%= manga._id %>/rate" method="POST" class="rate-form">
+            <div class="rating-input-row">
+                
+                <div class="cyber-select-wrapper">
+                    <select name="rating" required class="cyber-rate-select">
+                        <option value="" disabled selected>Select Score...</option>
+                        <option value="5" <%= userRating === 5 ? 'selected' : '' %>>5 ★ Masterpiece</option>
+                        <option value="4" <%= userRating === 4 ? 'selected' : '' %>>4 ★ Great</option>
+                        <option value="3" <%= userRating === 3 ? 'selected' : '' %>>3 ★ Good</option>
+                        <option value="2" <%= userRating === 2 ? 'selected' : '' %>>2 ★ Fair</option>
+                        <option value="1" <%= userRating === 1 ? 'selected' : '' %>>1 ★ Poor</option>
+                    </select>
+                    <i class="fas fa-chevron-down custom-arrow"></i>
+                </div>
+                
+                <button type="submit" class="btn-rate-submit">
+                    RATE <i class="fas fa-bolt"></i>
+                </button>
+            </div>
+        </form>
+    <% } else { %>
+        <a href="/auth/login" class="login-rate-link">
+            <div class="icon-circle"><i class="fas fa-lock"></i></div>
+            <span>Login to Rate</span>
+        </a>
+    <% } %>
+</div>
+            </div>
+
         </div>
       </div>
 
-      <!-- Description -->
-      <section class="manga-section">
-        <h2><i class="fas fa-align-left"></i> Synopsis</h2>
-        <p class="manga-description"><%= manga.description %></p>
-      </section>
+      <div class="content-block synopsis-block">
+        <h2 class="section-heading"><i class="fas fa-align-left"></i> SYNOPSIS</h2>
+        <div class="synopsis-text">
+            <%= manga.description %>
+        </div>
+      </div>
 
-      <!-- Discussions -->
-      <section class="manga-section">
-        <div class="section-header">
-          <h2><i class="fas fa-comments"></i> Discussions</h2>
-          <% if (currentUser) { %>
-            <a href="/discussions/create?manga=<%= manga._id %>" class="btn btn-primary">
-              <i class="fas fa-plus"></i> New Discussion
-            </a>
-          <% } %>
+      <div class="content-block discussions-block">
+        <div class="discussion-header">
+            <h2 class="section-heading"><i class="fas fa-comments"></i> COMMUNITY FREQUENCY</h2>
+            <% if (currentUser) { %>
+                <a href="/discussions/create?manga=<%= manga._id %>" class="btn btn-primary">
+                    Start Discussion <i class="fas fa-plus"></i>
+                </a>
+            <% } %>
         </div>
 
         <% if (threads.length > 0) { %>
-          <div class="thread-list-preview">
-            <% threads.forEach(thread => { %>
-              <div class="thread-preview-item">
-                <div class="thread-preview-info">
-                  <h4><a href="/discussions/<%= thread._id %>"><%= thread.title %></a></h4>
-                  <p class="thread-meta">
-                    by <strong><%= thread.user.username %></strong> • 
-                    <%= new Date(thread.createdAt).toLocaleDateString() %> •
-                    <i class="fas fa-eye"></i> <%= thread.views %> views •
-                    <i class="fas fa-comment"></i> <%= thread.replies.length %> replies
-                  </p>
-                </div>
-              </div>
-            <% }) %>
-          </div>
-          <a href="/discussions?manga=<%= manga._id %>" class="btn btn-outline">
-            View All Discussions <i class="fas fa-arrow-right"></i>
-          </a>
+            <div class="mini-thread-list">
+                <% threads.forEach(thread => { %>
+                    <a href="/discussions/<%= thread._id %>" class="mini-thread-item">
+                        <div class="mt-info">
+                            <h4><%= thread.title %></h4>
+                            <span class="mt-meta">
+                                By <%= thread.user.username %> • <%= new Date(thread.createdAt).toLocaleDateString() %>
+                            </span>
+                        </div>
+                        <div class="mt-stats">
+                            <span><i class="fas fa-comment"></i> <%= thread.replies.length %></span>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+            <div class="view-all-wrapper">
+                <a href="/discussions?search=<%= manga.title %>" class="btn btn-outline">View All Topics</a>
+            </div>
         <% } else { %>
-          <div class="empty-state-small">
-            <p>No discussions yet. Be the first to start one!</p>
-            <% if (currentUser) { %>
-              <a href="/discussions/create?manga=<%= manga._id %>" class="btn btn-primary">
-                Start Discussion
-              </a>
-            <% } %>
-          </div>
+            <div class="empty-zone">
+                <p>No transmissions yet. Be the first to signal.</p>
+            </div>
         <% } %>
-      </section>
+      </div>
+
     </div>
   </main>
 
   <%- include('../partials/footer') %>
-  
   <script src="/js/main.js"></script>
 </body>
 </html>

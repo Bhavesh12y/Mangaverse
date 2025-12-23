@@ -809,6 +809,50 @@ h1 { font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
    ========================================= */
 
 /* --- 1. Top Bar Structure --- */
+
+/* --- Scrollable Replies Section --- */
+/* --- Scrollable Replies Section (Corrected) --- */
+
+.replies-scroll-window {
+    /* Enforce a fixed height so overflow triggers */
+    height: 500px; 
+    
+    /* Use auto so scrollbar only appears when needed */
+    overflow-y: auto; 
+    
+    /* Ensure block display */
+    display: block;
+    
+    /* Aesthetics */
+    padding-right: 1rem;
+    margin-top: 1rem;
+    
+    /* Optional: Add a border or background to visualize the box boundary */
+    background: rgba(0, 0, 0, 0.2); 
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+/* --- Custom Scrollbar Styling --- */
+.replies-scroll-window::-webkit-scrollbar {
+    width: 8px;
+}
+
+.replies-scroll-window::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.replies-scroll-window::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.replies-scroll-window::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-blue, #4876ff);
+}
 .discussion-top-bar {
     display: flex;
     flex-wrap: wrap;
@@ -1072,6 +1116,372 @@ h1 { font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
     }
 }
 
+/* =========================================
+   MANGA DETAIL PAGE (Wireframe Implementation)
+   ========================================= */
+
+/* --- 1. Hero Grid Layout --- */
+.manga-hero-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr; /* Large cover, remaining space for info */
+    gap: 3rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+/* LEFT: Cover Image */
+.hero-cover-wrapper {
+    position: relative;
+    height: 600px; /* Tall, imposing cover */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.hero-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* RIGHT: Info Stack */
+.hero-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Shared Card Style */
+.info-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 2rem;
+}
+
+/* Title Card */
+.title-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(180deg, var(--card-bg), #1a1a1f);
+}
+.title-card h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    line-height: 1.1;
+    color: var(--text-main);
+    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Details Box (The "Purple" one from wireframe) */
+.details-card {
+    flex-grow: 1; /* Takes up available height */
+    border-left: 4px solid var(--brand-purple); /* The accent */
+    display: flex;
+    align-items: center;
+}
+
+.details-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.detail-item.full-width {
+    grid-column: span 2;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1.5rem;
+}
+
+.label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: "Bowlby One SC";
+}
+.value {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.author-value { color: var(--brand-blue); }
+
+.status-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: fit-content;
+}
+.status-pill.ongoing { background: rgba(39, 201, 63, 0.2); color: #27c93f; border: 1px solid #27c93f; }
+.status-pill.completed { background: rgba(72, 118, 255, 0.2); color: #4876ff; border: 1px solid #4876ff; }
+.status-pill.hiatus { background: rgba(255, 189, 46, 0.2); color: #ffbd2e; border: 1px solid #ffbd2e; }
+
+.genre-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+.tag {
+    background: rgba(255,255,255,0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Ratings Row */
+.ratings-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.rating-display-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,215,0,0.05), transparent);
+    border-color: rgba(255,215,0,0.2);
+}
+.rating-big {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.rating-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; }
+/* Update these styles in your CSS */
+/* --- UPDATED RATING CARD STYLES --- */
+
+.rating-action-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem !important; /* Restore padding */
+    gap: 0.8rem;
+    position: relative;
+    /* Subtle glow border */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5); 
+}
+
+/* Small label above inputs */
+.rating-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.rate-form {
+    width: 100%;
+}
+
+.rating-input-row {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Select takes space, button is auto */
+    gap: 10px;
+}
+
+/* --- 1. Custom Select Styling --- */
+.cyber-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cyber-rate-select {
+    width: 100%;
+    appearance: none; /* Hides default browser arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    background: #09090b;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-family: "DM Mono", monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cyber-rate-select:hover {
+    border-color: rgba(255,255,255,0.4);
+    background: #111;
+}
+
+.cyber-rate-select:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+    box-shadow: 0 0 0 2px rgba(72, 118, 255, 0.2);
+}
+
+/* The Custom Arrow Icon */
+.custom-arrow {
+    position: absolute;
+    right: 15px;
+    color: var(--brand-blue);
+    pointer-events: none; /* Click passes through to select */
+    font-size: 0.8rem;
+}
+
+/* --- 2. Button Styling --- */
+.btn-rate-submit {
+    background: linear-gradient(135deg, var(--brand-blue), #2563eb);
+    color: #fff;
+    border: none;
+    padding: 0 1.5rem;
+    border-radius: 12px;
+    font-family: "Bowlby One SC", cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+
+.btn-rate-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-rate-submit:active {
+    transform: translateY(1px);
+}
+
+/* --- 3. Login State Styling --- */
+.login-rate-link {
+    width: 100%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    transition: 0.3s;
+}
+
+.icon-circle {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand-blue);
+    transition: 0.3s;
+}
+
+.login-rate-link:hover .icon-circle {
+    background: var(--brand-blue);
+    color: #fff;
+    transform: scale(1.1);
+}
+.login-rate-link:hover span {
+    color: #fff;
+}
+/* --- 2. Full Width Content Blocks --- */
+.content-block {
+    background: var(--card-bg);
+    border-radius: 30px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.section-heading {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 1rem;
+}
+
+.synopsis-text {
+    font-size: 1.1rem;
+    line-height: 1.8; /* Spacious text */
+    color: #ddd;
+    max-width: 900px;
+}
+
+/* Discussions Block */
+.discussion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 1rem;
+}
+.discussion-header .section-heading { margin: 0; border: none; padding: 0; }
+
+.mini-thread-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.mini-thread-item {
+    background: rgba(0,0,0,0.3);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mini-thread-item:hover {
+    border-color: var(--brand-blue);
+    transform: translateY(-3px);
+    background: rgba(0,0,0,0.5);
+}
+
+.mt-info h4 { margin: 0 0 0.5rem 0; color: #fff; font-size: 1rem; font-family: "DM Mono"; }
+.mt-meta { font-size: 0.8rem; color: var(--text-muted); }
+.mt-stats { color: var(--brand-blue); }
+
+.view-all-wrapper { text-align: center; }
+.empty-zone { text-align: center; color: var(--text-muted); padding: 2rem; font-style: italic; }
+
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+    .manga-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .hero-cover-wrapper {
+        height: 400px; /* Smaller on mobile */
+    }
+    .ratings-row {
+        grid-template-columns: 1fr; /* Stack ratings on mobile */
+    }
+    .content-block {
+        padding: 1.5rem;
+    }
+}
 /* =========================================
    THREAD DETAIL WIREFRAME STYLES
    ========================================= */
