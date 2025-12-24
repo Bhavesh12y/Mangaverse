@@ -507,6 +507,131 @@ h1 { font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
   justify-content: space-between; 
 }
 
+.mobile-menu-btn {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* --- Mobile Menu Overlay Styles --- */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px; /* Slightly wider for better breathing room */
+    height: 100%;
+    
+    /* Classy Dark Glass Effect */
+    background: rgba(18, 18, 18, 0.85); /* Deep dark with transparency */
+    backdrop-filter: blur(12px); /* The "Frosted Glass" blur */
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    
+    /* Subtle edge definition */
+    border-left: 1px solid rgba(255, 255, 255, 0.08); 
+    
+    /* Deep, diffused shadow for depth */
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+    
+    transform: translateX(100%);
+    
+    /* Premium "Spring" Animation (feels much smoother than standard ease) */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    z-index: 1001;
+    padding: 2.5rem 2rem; /* Increased padding for a spacious look */
+}
+
+/* Class added via JS to show menu */
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.close-menu-btn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.mobile-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.mobile-link:hover {
+    background: #333;
+}
+
+.mobile-divider {
+    border: 0;
+    border-top: 1px solid #444;
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Mobile Search Styling */
+.mobile-search-form {
+    display: flex;
+    background: #333;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.mobile-search-input {
+    background: transparent;
+    border: none;
+    color: white;
+    flex: 1;
+    padding: 5px;
+}
+
+.mobile-search-form button {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* Mobile Buttons */
+.full-width {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.admin-link { color: #ff4444; }
+.logout-link { color: #888; }
+
+/* --- Responsive Media Queries --- */
+@media (max-width: 768px) {
+    /* Hide Desktop Elements */
+    .desktop-only {
+        display: none !important;
+    }
+
+    /* Show Mobile Toggle */
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
 /* 1. BRAND LOGO - Extreme Left */
 .nav-brand {
   order: 1;

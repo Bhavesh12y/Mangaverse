@@ -17,7 +17,7 @@ router.get('/manageusers', isAdmin, async (req, res) => {
       mangas // <--- Pass them to EJS
     });
   } catch (err) {
-    console.error(err);
+    console.error(err);E
     res.redirect('/');
   }
 });

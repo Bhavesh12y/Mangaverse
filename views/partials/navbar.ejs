@@ -6,33 +6,27 @@
       </a>
     </div>
 
-    <div class="nav-links">
+    <div class="nav-links desktop-only">
       <a href="/" class="nav-link">Home</a>
       <a href="/top-rated" class="nav-link">Top Rated</a>
       <a href="/manga" class="nav-link">All Manga</a>
       <a href="/discussions" class="nav-link">Discussions</a>
     </div>
 
-    <div class="nav-actions">
-      <!-- Search Form -->
+    <div class="nav-actions desktop-only">
       <form action="/search" method="GET" class="search-form">
         <input type="text" name="q" placeholder="Search manga..." class="search-input">
         <button type="submit" class="search-btn">
           <i class="fas fa-search"></i>
         </button>
-        <div class="search-suggestions" role="listbox" aria-hidden="true"></div>
       </form>
 
       <% if (currentUser && (currentUser.role === 'admin' || currentUser.username === 'bhavi12z')) { %>
-    <a href="/admin/manageusers" class="btn btn-outline" style="border-color: #ff4444; color: #ff4444; margin-right: 10px;">
-      <i class="fas fa-shield-alt"></i> Admin Panel
-    </a>
-  <% } %>
+        <a href="/admin/manageusers" class="btn btn-outline admin-btn">
+          <i class="fas fa-shield-alt"></i> Admin
+        </a>
+      <% } %>
 
-  <% if (currentUser) { %>
-    <% } %>
-
-      <!-- User Menu (show only username and logout in one row) -->
       <% if (currentUser) { %>
         <div class="user-area">
           <span class="user-name"><i class="fas fa-user"></i>&nbsp;<%= currentUser.username %></span>
@@ -44,12 +38,49 @@
       <% } %>
     </div>
 
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-    
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
     </button>
   </div>
 </nav>
 
-<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-content">
+    <button class="close-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-times"></i>
+    </button>
 
+    <a href="/" class="mobile-link">Home</a>
+    <a href="/top-rated" class="mobile-link">Top Rated</a>
+    <a href="/manga" class="mobile-link">All Manga</a>
+    <a href="/discussions" class="mobile-link">Discussions</a>
+
+    <hr class="mobile-divider">
+
+    <form action="/search" method="GET" class="mobile-search-form">
+        <input type="text" name="q" placeholder="Search..." class="mobile-search-input">
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+
+    <hr class="mobile-divider">
+
+    <% if (currentUser) { %>
+        <div class="mobile-user-info">
+            <span>Hi, <%= currentUser.username %></span>
+        </div>
+        
+        <% if (currentUser.role === 'admin' || currentUser.username === 'bhavi12z') { %>
+            <a href="/admin/manageusers" class="mobile-link admin-link">
+                <i class="fas fa-shield-alt"></i> Admin Panel
+            </a>
+        <% } %>
+
+        <a href="/auth/logout" class="mobile-link logout-link">Logout</a>
+    <% } else { %>
+        <div class="mobile-auth-buttons">
+            <a href="/auth/login" class="btn btn-outline full-width">Login</a>
+            <a href="/auth/signup" class="btn btn-primary full-width">Sign Up</a>
+        </div>
+    <% } %>
+  </div>
+</div>

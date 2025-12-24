@@ -256,6 +256,35 @@ function initDotGrid() {
 // ========================================
 // MOBILE MENU
 // ========================================
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const body = document.body;
+  
+  // Toggle the active class
+  menu.classList.toggle('active');
+  
+  // Optional: Prevent scrolling on the body when menu is open
+  if (menu.classList.contains('active')) {
+    body.style.overflow = 'hidden';
+  } else {
+    body.style.overflow = 'auto';
+  }
+}
+
+// Close menu if clicking outside of it (Optional UX improvement)
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.querySelector('.mobile-menu-btn');
+    
+    // If menu is open, and click is NOT on the menu or the toggle button
+    if (menu.classList.contains('active') && 
+        !menu.contains(e.target) && 
+        !btn.contains(e.target)) {
+        toggleMobileMenu();
+    }
+});
+
+
 function initMobileMenu() {
   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
   const mobileMenu = document.querySelector('.mobile-menu');
